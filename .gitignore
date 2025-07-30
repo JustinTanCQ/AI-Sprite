@@ -53,3 +53,7 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
+
+# Reference codes (should not be committed)
+ReferCodes/
+Server/ReferCodes/
