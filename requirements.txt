@@ -1,0 +1,50 @@
+# Core dependencies
+numpy>=1.22.3
+scipy>=1.6.0
+librosa>=0.10.0
+soundfile>=0.12.1
+requests>=2.19.0
+websockets>=11.0
+
+# Audio processing
+audioread>=2.1.9
+soxr>=0.3.2
+
+# Machine Learning
+scikit-learn>=1.1.0
+numba>=0.51.0
+joblib>=1.0
+
+# ONNX Runtime for ASR and Sentiment Analysis
+onnxruntime>=1.15.0
+
+# Transformers and PyTorch for Sentiment Analysis
+transformers>=4.20.0
+torch>=1.9.0
+tokenizers>=0.13.0
+
+# Configuration and utilities
+pyyaml>=6.0
+decorator>=4.3.0
+typing_extensions>=4.1.1
+lazy_loader>=0.1
+msgpack>=1.0
+pooch>=1.1
+platformdirs>=2.5.0
+threadpoolctl>=3.1.0
+packaging
+
+# SSL and networking
+certifi>=2017.4.17
+charset_normalizer<4,>=2
+idna<4,>=2.5
+urllib3<3,>=1.21.1
+
+# System dependencies
+cffi>=1.0
+pycparser
+
+# Optional: FastAPI and related (if using web API)
+# fastapi>=0.68.0
+# uvicorn>=0.15.0
+# pydantic>=1.8.0
