@@ -35,11 +35,19 @@ AI-Sprite 是一个基于大语言模型和语音合成技术的智能角色扮�
 
 #### 演示视频
 
-**纳西妲角色演示**
-![纳西妲演示](Demo/demo-yuanshen.mp4)
+**原神角色演示（纳西妲 & 派蒙）**
 
-**奥伦角色演示**  
-![奥伦演示](Demo/demo-aurun.mp4)
+<video width="640" height="360" controls>
+  <source src="Demo/demo-yuanshen.mp4" type="video/mp4">
+  您的浏览器不支持视频播放。
+</video>
+
+**哪吒角色演示（敖润）**
+
+<video width="640" height="360" controls>
+  <source src="Demo/demo-aurun.mp4" type="video/mp4">
+  您的浏览器不支持视频播放。
+</video>
 
 *演示视频展示了AI-Sprite的完整交互流程：语音输入 → 语音识别 → 情感分析 → 角色对话生成 → 语音合成输出*
 
@@ -54,22 +62,6 @@ AI-Sprite 是一个基于大语言模型和语音合成技术的智能角色扮�
 ---
 
 Use LLM and TTS to make your own AI Sprites.
-
-## 项目演示
-
-## 项目演示
-
-### 演示视频
-📺 **完整演示**：[点击观看B站演示视频](https://www.bilibili.com/video/YOUR_VIDEO_ID)
-
-<!-- 如果你有演示GIF，可以直接显示在这里 -->
-<!-- ![AI-Sprite演示](demo/ai-sprite-demo.gif) -->
-
-### 主要功能
-- 🎤 **语音识别**：实时将语音转换为文本
-- 🤖 **智能对话**：基于大语言模型的自然对话
-- 😊 **情感分析**：识别6种情感状态（开心、害怕、生气、失落、好奇、调侃）
-- 🔊 **语音合成**：高质量的文本转语音输出
 
 ## 安装和运行指南
 
