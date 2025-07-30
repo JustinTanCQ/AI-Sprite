@@ -36,8 +36,7 @@ AI-Sprite 是一个基于大语言模型和语音合成技术的智能角色扮�
 #### 演示视频
 
 **原神角色演示（纳西妲 & 派蒙）**
-
-![原神角色演示](Demo/demo-yuanshen.mp4)
+<video src="Demo/demo-yuanshen.mp4" width="320" height="240" controls></video>
 
 **哪吒角色演示（敖润）**
 
