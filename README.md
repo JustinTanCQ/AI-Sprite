@@ -7,7 +7,7 @@ AI-Sprite 是一个基于大语言模型和语音合成技术的智能角色扮�
 ### ✨ 核心特性
 
 🎪 **角色扮演系统**
-- 支持多种预设角色（纳西妲、派蒙、奥伦等原神角色）
+- 支持多种预设角色（纳西妲、派蒙、敖润三位角色）
 - 每个角色都有独特的性格设定和对话风格
 - 基于角色背景的个性化回复生成
 
@@ -53,15 +53,85 @@ https://github.com/user-attachments/assets/b616132e-863f-4750-9337-88a141c42350
 - **情感引擎**: 基于BERT的情感分析模型
 - **WebSocket服务**: 实时通信支持
 
----
+### 项目结构
+```
+AI-Sprite/
+├── Server/           # 服务器端代码
+│   ├── ASR/         # 自动语音识别模块
+│   ├── LLM/         # 大语言模型模块
+│   ├── TTS/         # 文本转语音模块
+│   ├── SentimentEngine/  # 情感分析引擎
+│   │   ├── SentimentEngine.py  # 情感分析主类
+│   │   └── models/             # ONNX模型文件
+│   ├── utils/       # 工具函数
+│   ├── SocketServer.py   # 主服务器文件
+│   └── run_script.py     # 启动脚本
+├── Web/             # 前端代码
+└── requirements.txt # Python依赖包列表
+```
 
-Use LLM and TTS to make your own AI Sprites.
+### 功能模块说明
+
+- **ASR (自动语音识别)**：将语音转换为文本
+- **LLM (大语言模型)**：处理自然语言对话
+- **TTS (文本转语音)**：将文本转换为语音
+- **SentimentEngine (情感分析)**：分析文本情感，支持6种情感类型：
+  - 0: 开心
+  - 1: 害怕  
+  - 2: 生气
+  - 3: 失落
+  - 4: 好奇
+  - 5: 调侃
+
+---
 
 ## 安装和运行指南
 
 ### 环境要求
 - Python 3.10+
-- macOS (推荐) 或其他支持的操作系统
+- macOS/Linux (推荐) 或其他支持的操作系统
+- AWS账户和Bedrock访问权限（用于LLM服务）
+
+### AWS Bedrock权限配置
+
+如果您的LLM代码调用AWS Bedrock模型，需要确保以下配置：
+
+#### 🔑 AWS凭证配置
+```bash
+aws configure
+# 或者设置环境变量
+export AWS_ACCESS_KEY_ID=your_access_key
+export AWS_SECRET_ACCESS_KEY=your_secret_key
+export AWS_DEFAULT_REGION=us-east-1  # 或其他支持Bedrock的区域
+```
+
+#### 🛡️ IAM权限策略
+您的AWS用户/角色需要包含以下权限：
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "bedrock:InvokeModel",
+                "bedrock:InvokeModelWithResponseStream"
+            ],
+            "Resource": "arn:aws:bedrock:*:*:foundation-model/*"
+        }
+    ]
+}
+```
+
+#### 🎯 Bedrock模型访问
+- 在AWS控制台中启用您要使用的基础模型
+- 确保在支持Bedrock的区域（如us-east-1, us-west-2等）
+- 代码中指定正确的AWS区域
+
+#### 💡 快速检查权限
+```bash
+aws bedrock list-foundation-models --region us-east-1
+```
 
 ### 安装步骤
 
@@ -112,9 +182,6 @@ Use LLM and TTS to make your own AI Sprites.
    # 安装音频处理依赖
    sudo yum install -y portaudio-devel alsa-lib-devel
    
-   # 安装其他系统依赖
-   sudo yum install -y gcc gcc-c++ make cmake
-   sudo yum install -y libffi-devel openssl-devel
    ```
    
    **Ubuntu/Debian:**
@@ -211,15 +278,13 @@ GPT-SoVITS 是本项目使用的文本转语音(TTS)引擎，提供高质量的�
 
 ```python
 # 示例配置
-server_url = 'http://10.0.29.129:9880/tts'
+server_url = 'http://IP地址:端口/tts'
 ```
 
 **地址配置说明**：
 - **本机部署**：`http://localhost:9880/tts` 或 `http://127.0.0.1:9880/tts`
 - **内网部署**：`http://内网IP:9880/tts`（如示例中的 `http://10.0.29.129:9880/tts`）
 - **公网部署**：`http://公网IP:9880/tts`（不推荐，安全性和速度都不理想）
-
-💡 **配置参考**：可以查看 `Server/config_example.py` 文件了解详细的配置选项。
 
 ### 性能优化建议
 
@@ -233,81 +298,10 @@ server_url = 'http://10.0.29.129:9880/tts'
    - 确保有足够的内存和存储空间
    - 监控服务状态和性能指标
 
-### 项目结构
-```
-AI-Sprite/
-├── Server/           # 服务器端代码
-│   ├── ASR/         # 自动语音识别模块
-│   ├── LLM/         # 大语言模型模块
-│   ├── TTS/         # 文本转语音模块
-│   ├── SentimentEngine/  # 情感分析引擎
-│   │   ├── SentimentEngine.py  # 情感分析主类
-│   │   └── models/             # ONNX模型文件
-│   ├── utils/       # 工具函数
-│   ├── SocketServer.py   # 主服务器文件
-│   └── run_script.py     # 启动脚本
-├── Web/             # 前端代码
-└── requirements.txt # Python依赖包列表
-```
-
-### 功能模块说明
-
-- **ASR (自动语音识别)**：将语音转换为文本
-- **LLM (大语言模型)**：处理自然语言对话
-- **TTS (文本转语音)**：将文本转换为语音
-- **SentimentEngine (情感分析)**：分析文本情感，支持6种情感类型：
-  - 0: 开心
-  - 1: 害怕  
-  - 2: 生气
-  - 3: 失落
-  - 4: 好奇
-  - 5: 调侃
 
 ### 故障排除
 
-1. **SSL证书错误**
-   - 使用 `--trusted-host` 参数安装包
-   - 或者更新证书：`pip install --upgrade certifi`
-
-2. **缺少系统依赖**
-   - macOS: `brew install portaudio`
-   - Amazon Linux: `sudo yum install -y portaudio-devel alsa-lib-devel`
-   - Ubuntu: `sudo apt-get install portaudio19-dev`
-
-3. **Python版本问题**
-   - 确保使用Python 3.10或更高版本
-   - 使用 `python3` 而不是 `python` 命令
-   - Amazon Linux上可能需要安装更新的Python版本：
-     ```bash
-     sudo yum install -y python3.10 python3.10-pip python3.10-devel
-     ```
-
-4. **编译错误 (Amazon Linux)**
-   - 确保安装了开发工具：
-     ```bash
-     sudo yum groupinstall -y "Development Tools"
-     sudo yum install -y gcc gcc-c++ make cmake
-     ```
-   - 如果遇到LLVM相关错误，可能需要安装特定版本的LLVM：
-     ```bash
-     sudo yum install -y llvm-devel
-     ```
-
-5. **音频设备问题**
-   - 在无头服务器环境中，可能需要配置虚拟音频设备
-   - Amazon Linux上可以安装pulseaudio：
-     ```bash
-     sudo yum install -y pulseaudio pulseaudio-utils
-     ```
-
-6. **权限问题**
-   - 确保用户有权限访问音频设备
-   - 可能需要将用户添加到audio组：
-     ```bash
-     sudo usermod -a -G audio $USER
-     ```
-
-7. **情感分析模块问题**
+1. **情感分析模块问题**
    - 如果遇到 `transformers` 相关错误，确保安装了正确版本：
      ```bash
      pip install transformers>=4.20.0 torch>=1.9.0
@@ -318,7 +312,7 @@ AI-Sprite/
      export HF_ENDPOINT=https://hf-mirror.com
      ```
 
-8. **测试各个模块**
+2. **测试各个模块**
    - 测试情感分析模块：
      ```bash
      cd Server
